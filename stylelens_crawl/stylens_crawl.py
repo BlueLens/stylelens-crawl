@@ -18,8 +18,8 @@ class StylensCrawler(object):
     def __init__(self, service_name):
         self.service_name = service_name
         self.logger = logging.getLogger(__name__)
-        self.logger.addHandler(logging.StreamHandler())
-        # self.logger.setLevel(logging.DEBUG)
+        # self.logger.addHandler(logging.StreamHandler())
+        self.logger.setLevel(logging.INFO)
         self.process = CrawlerProcess({
             'USER_AGENT': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36',
             'FEED_FORMAT': 'json',
@@ -56,7 +56,7 @@ class StylensCrawler(object):
                         if 'is_exist' in sub_data:
                             if sub_data['product_no'] == data['product_no']:
                                 if isinstance(data['tags'], list):
-                                    data['tags'] = data['tags'].extend(sub_data['tags'])
+                                    data['tags'].extend(sub_data['tags'])
                                 else:
                                     if isinstance(sub_data['tags'], list):
                                         data['tags'] = sub_data['tags']
@@ -66,7 +66,7 @@ class StylensCrawler(object):
 
         for data in target_data:
             result = self.api_instance.add_product(data)
-            self.logger.info(result)
+            self.logger.debug(result)
 
 
 
