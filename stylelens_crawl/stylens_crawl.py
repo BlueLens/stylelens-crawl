@@ -27,8 +27,8 @@ class StylensCrawler(object):
         self.target_data = []
         self.api_instance = stylelens_product.ProductApi()
 
-        # if os.path.exists(os.path.join(BASE_DIR, 'out.json')):
-        #     os.remove(os.path.join(BASE_DIR, 'out.json'))
+        if os.path.exists(os.path.join(BASE_DIR, 'out.json')):
+            os.remove(os.path.join(BASE_DIR, 'out.json'))
 
     def start(self):
 
@@ -39,7 +39,7 @@ class StylensCrawler(object):
         else:
             return False
 
-        # self.process.start()
+        self.process.start()
         self.logger.info('############################### completed')
         with open(os.path.join(BASE_DIR, 'out.json'), 'r', encoding='UTF-8') as file:
             raw_data = json.loads(file.read())

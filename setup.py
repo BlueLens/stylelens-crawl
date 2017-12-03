@@ -27,7 +27,7 @@ setup(
     long_description=open('README.rst').read(),
     author='Bluehack',
     author_email='devops@bluehack.net',
-    url='https://github.com/BlueHack-Core/blueforge',
+    url='https://github.com/BlueLens/stylelens-crawl',
     scripts=[],
     packages=find_packages(exclude=['tests*']),
     include_package_data=True,
