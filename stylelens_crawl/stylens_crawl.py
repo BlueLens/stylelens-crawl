@@ -10,10 +10,6 @@ from stylelens_crawl.services.DoubleSixGirls import DoubleSixGirls
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
-# TODO : Define Logging Level
-
-
 class StylensCrawler(object):
     def __init__(self, service_name):
         self.service_name = service_name
@@ -27,6 +23,7 @@ class StylensCrawler(object):
             'FEED_URI': 'out.json',
             'LOG_LEVEL': 'INFO'
         })
+        self.target_data = []
         self.api_instance = stylelens_product.ProductApi()
 
         if os.path.exists(os.path.join(BASE_DIR, 'out.json')):
@@ -42,12 +39,7 @@ class StylensCrawler(object):
             return False
 
         self.process.start()
-        self.logger.info('############################### Ended the finding product information.')
-        self.save()
-        return True
-
-    def save(self):
-        target_data = []
+        self.logger.info('############################### completed')
         with open(os.path.join(BASE_DIR, 'out.json'), 'r', encoding='UTF-8') as file:
             raw_data = json.loads(file.read())
             for data in raw_data:
@@ -60,13 +52,22 @@ class StylensCrawler(object):
                                 else:
                                     if isinstance(sub_data['tags'], list):
                                         data['tags'] = sub_data['tags']
-                    target_data.append(data)
+                    self.target_data.append(data)
+        self.logger.info('############################### Completed the task of refining crawling data.')
 
-        self.logger.info('Item count: %d' % len(target_data))
+        return True
 
-        for data in target_data:
+    def save_items(self):
+        if len(self.target_data) == 0:
+            raise RuntimeError('The result does not exist.')
+
+        for data in self.target_data:
             result = self.api_instance.add_product(data)
             self.logger.debug(result)
 
+        return True
 
-
+    def get_items(self):
+        if len(self.target_data) == 0:
+            raise RuntimeError('The result does not exist.')
+        return self.target_data

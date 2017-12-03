@@ -22,7 +22,7 @@ class DoubleSixGirls(Spider):
             yield Request(url=self.netloc + url, callback=self.sub_parse)
 
     def sub_parse(self, response):
-        item_urls = response.css('div.xans-product-normalpackage  li p.name a::attr(href)').extract()
+        item_urls = response.css('div.xans-product-normalpackage li p.name a::attr(href)').extract()
         next_page = response.css('div.xans-product-normalpaging p a::attr(href)').extract()[-2]
 
         for url in item_urls:
