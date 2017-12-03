@@ -14,12 +14,24 @@ Getting Started
 ------------------
 [The Example code](test/test.py):
 
-    # If the crawling task completed
-    if sty.start():
-        # Get a crawling result data.
-        sty.get_items()
-        # Save a crawling result data to Stylens Server
-        sty.save_items()
+## Step 1: Import the stylelens crawl library
+    from stylelens_crawl.stylens_crawl import StylensCrawler
+
+## Step 2: Create a stylelens crawl object
+    sty = StylensCrawler('HC0001')
+
+
+## Step 3: Call a start function
+The crawling task time is vary up to your internet speed.
+It will be returned 'True' when successfully completed. 
+
+    sty.start():
+
+## Step 3: Get a crawling result data.
+    sty.get_items()
+        
+## Step 4: Save a crawling result data to Stylens Server
+    sty.save_items()
         
 List of supported shopping malls
 ------------------
