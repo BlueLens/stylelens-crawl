@@ -24,4 +24,4 @@ Getting Started
 List of supported shopping malls
 ------------------
 1. [De-bow](http://de-bow.co.kr) / HC0002
-2. [육육걸즈](ttp://66girls.co.kr) / HC0001
+2. [육육걸즈](http://66girls.co.kr) / HC0001
