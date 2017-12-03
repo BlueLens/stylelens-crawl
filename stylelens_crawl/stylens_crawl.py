@@ -11,8 +11,9 @@ from stylelens_crawl.services.DoubleSixGirls import DoubleSixGirls
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 class StylensCrawler(object):
-    def __init__(self, service_name):
-        self.service_name = service_name
+    def __init__(self, options):
+        if 'host_code' in options:
+            self.service_name = options['host_code']
         self.logger = logging.getLogger(__name__)
         # self.logger.addHandler(logging.StreamHandler())
         self.logger.setLevel(logging.INFO)
@@ -26,8 +27,8 @@ class StylensCrawler(object):
         self.target_data = []
         self.api_instance = stylelens_product.ProductApi()
 
-        if os.path.exists(os.path.join(BASE_DIR, 'out.json')):
-            os.remove(os.path.join(BASE_DIR, 'out.json'))
+        # if os.path.exists(os.path.join(BASE_DIR, 'out.json')):
+        #     os.remove(os.path.join(BASE_DIR, 'out.json'))
 
     def start(self):
 
@@ -38,7 +39,7 @@ class StylensCrawler(object):
         else:
             return False
 
-        self.process.start()
+        # self.process.start()
         self.logger.info('############################### completed')
         with open(os.path.join(BASE_DIR, 'out.json'), 'r', encoding='UTF-8') as file:
             raw_data = json.loads(file.read())

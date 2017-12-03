@@ -1,6 +1,10 @@
 from stylelens_crawl.stylens_crawl import StylensCrawler
 
-sty = StylensCrawler('HC0001')
+options = {
+    'host_code': 'HC0001'
+}
+
+sty = StylensCrawler(options)
 
 # If the crawling task completed
 if sty.start():
