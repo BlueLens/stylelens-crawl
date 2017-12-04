@@ -36,9 +36,6 @@ It will be returned 'True' when successfully completed.
 ### Step 5: Get a crawling result data.
     sty.get_items()
         
-### Step 6: Save a crawling result data to Stylens Server
-    sty.save_items()
-        
 List of supported shopping malls
 ------------------
 1. [De-bow](http://de-bow.co.kr) / HC0002

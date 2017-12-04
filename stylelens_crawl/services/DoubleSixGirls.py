@@ -31,19 +31,12 @@ class DoubleSixGirls(Spider):
                 product_no = url[url.find('product_no') + 11:].split(sep='&')[0]
             except Exception as ex:
                 self.logger.error(ex)
-            if product_no in self.crawled_product:
-                yield Request(
-                    url=self.netloc + url,
-                    callback=self.detail_parse,
-                    meta={'is_exist': True})
-            else:
-                if product_no is not None:
-                    self.crawled_product.append(product_no)
-                review_url = 'http://widgets1.cre.ma/66girls.co.kr/products/reviews?iframe=1&product_code=%s' % product_no
-                yield Request(
-                    url=review_url,
-                    callback=self.review_parse,
-                    meta={'item_url': self.netloc + url, 'page': 1, 'reviews': [], 'review_url': review_url})
+
+            review_url = 'http://widgets1.cre.ma/66girls.co.kr/products/reviews?iframe=1&product_code=%s' % product_no
+            yield Request(
+                url=review_url,
+                callback=self.review_parse,
+                meta={'item_url': self.netloc + url, 'page': 1, 'reviews': [], 'review_url': review_url})
 
         if next_page != '#none':
             yield Request(url=self.netloc + '/product/list.html' + next_page, callback=self.sub_parse)
@@ -116,38 +109,30 @@ class DoubleSixGirls(Spider):
                           callback=self.review_parse, meta=response.meta)
         else:
             yield Request(url=response.meta['item_url'], callback=self.detail_parse,
-                          meta={'reviews': response.meta['reviews'], 'is_exist': False})
+                          meta={'reviews': response.meta['reviews']})
 
     def detail_parse(self, response):
         sub_images = []
         product_no = response.css('span[id="snackbe_item_id"]::text').extract_first()
-        if response.meta['is_exist']:
-            self.logger.debug('Exist: %s' % response.url)
 
-            yield {
-                'is_exist': True,
-                'product_no': product_no,
-                'tags': [response.css('meta[name="keywords"]::attr(content)').extract_first().split(',')[-1].strip()],
-            }
-        else:
-            for url in response.css('div#prdDetail img::attr(src)').extract():
-                sub_images.append(make_url(self.netloc, url))
-            self.logger.debug('Not exist: %s' % response.url)
-            product = {
-                'host_url': self.target_domain,
-                'host_code': 'HC0001',
-                'host_name': self.name,
-                'name': response.css('meta[property="og:title"]::attr(content)').extract_first(),
-                'tags': [response.css('meta[name="keywords"]::attr(content)').extract_first().split(',')[-1].strip()],
-                'price': int(response.css('meta[property="product:sale_price:amount"]::attr(content)').extract_first()),
-                'currency_unit': response.css(
-                    'meta[property="product:sale_price:currency"]::attr(content)').extract_first(),
-                'product_url': response.url,
-                'product_no': product_no,
-                'nation': 'kr',
-                'main_image': response.css('meta[property="og:image"]::attr(content)').extract_first(),
-                'sub_images': sub_images,
-                'feedback': response.meta['reviews']
-            }
+        for url in response.css('div#prdDetail img::attr(src)').extract():
+            sub_images.append(make_url(self.netloc, url))
+        self.logger.debug('Not exist: %s' % response.url)
+        product = {
+            'host_url': self.target_domain,
+            'host_code': 'HC0001',
+            'host_name': self.name,
+            'name': response.css('meta[property="og:title"]::attr(content)').extract_first(),
+            'tags': [response.css('meta[name="keywords"]::attr(content)').extract_first().split(',')[-1].strip()],
+            'price': int(response.css('meta[property="product:sale_price:amount"]::attr(content)').extract_first()),
+            'currency_unit': response.css(
+                'meta[property="product:sale_price:currency"]::attr(content)').extract_first(),
+            'product_url': response.url,
+            'product_no': product_no,
+            'nation': 'kr',
+            'main_image': response.css('meta[property="og:image"]::attr(content)').extract_first(),
+            'sub_images': sub_images,
+            'feedback': response.meta['reviews']
+        }
 
-            yield product
+        yield product

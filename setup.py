@@ -4,7 +4,6 @@ import re
 from setuptools import setup, find_packages
 
 requires = [
-    'stylelens-product>=1.0.7',
     'Scrapy>=1.4',
     'requests>=2.18.4',
     'beautifulsoup4>=4.6.0',
