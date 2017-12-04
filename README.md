@@ -28,12 +28,12 @@ Getting Started
 
 
 ### Step 4: Call a start function
-The crawling task time is vary up to your internet speed.
-It will be returned 'True' when successfully completed. 
+The crawling task time is vary up to your internet speed.<br/>
+It will be returned '<b>True</b>' when successfully completed. 
 
     sty.start():
 
-### Step 5: Get a crawling result data.
+### Step 5: Get a crawled result data.
     sty.get_items()
         
 List of supported shopping malls
