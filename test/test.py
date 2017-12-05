@@ -1,7 +1,7 @@
 from stylelens_crawl.stylens_crawl import StylensCrawler
 
 options = {
-    'host_code': 'HC0001'
+    'host_code': 'HC0002'
 }
 
 sty = StylensCrawler(options)

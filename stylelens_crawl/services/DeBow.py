@@ -6,7 +6,6 @@ class DeBow(Spider):
     name = 'debow'
     target_domain = 'de-bow.co.kr'
     netloc = 'http://de-bow.co.kr'
-    inserted_item_no = []
 
     def start_requests(self):
         yield Request(url=self.netloc)
@@ -24,9 +23,8 @@ class DeBow(Spider):
         for url in item_urls:
             yield Request(url=self.netloc + url, callback=self.detail_parse)
 
-        print(next_page)
         if next_page != '#none':
-            yield Request(url=self.netloc + 'product/list.html' + next_page, callback=self.sub_parse)
+            yield Request(url=self.netloc + '/product/list.html' + next_page, callback=self.sub_parse)
 
     def detail_parse(self, response):
         sub_images = []
