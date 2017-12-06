@@ -3,7 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from scrapy import Spider, Request
-from stylelens_crawl.services import make_url
+from stylelens_crawl.util import make_url
 
 
 class DoubleSixGirls(Spider):

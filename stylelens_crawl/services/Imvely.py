@@ -2,23 +2,27 @@ from scrapy import Spider, Request
 from stylelens_crawl.util import make_url
 
 
-class DeBow(Spider):
-    name = 'debow'
-    target_domain = 'de-bow.co.kr'
-    netloc = 'http://de-bow.co.kr'
+class Imvely(Spider):
+    name = 'imvely'
+    target_domain = 'imvely.com'
+    netloc = 'http://www.imvely.com'
 
     def start_requests(self):
         yield Request(url=self.netloc)
 
     def parse(self, response):
-        sub_urls = response.css('ul.category_list a::attr(href)').extract()
+        # 다름
+        sub_urls = response.css('div.wrap_cate dd a::attr(href)').extract()
 
         for url in sub_urls:
             yield Request(url=self.netloc + url, callback=self.sub_parse)
 
     def sub_parse(self, response):
         item_urls = response.css('div.xans-product-normalpackage  li p.name a::attr(href)').extract()
-        next_page = response.css('div.xans-product-normalpaging p a::attr(href)').extract()[-2]
+        # 다름
+        next_page = response.css('div.xans-product-normalpaging p a::attr(href)').extract()[-1]
+
+        self.logger.info(next_page)
 
         for url in item_urls:
             yield Request(url=self.netloc + url, callback=self.detail_parse)
@@ -36,7 +40,7 @@ class DeBow(Spider):
 
         product = {
             'host_url': self.target_domain,
-            'host_code': 'HC0002',
+            'host_code': 'HC0003',
             'host_name': self.name,
             'name': response.css('meta[property="og:title"]::attr(content)').extract_first(),
             'tags': [response.css('meta[name="keywords"]::attr(content)').extract_first().split(',')[-1].strip()],

@@ -1,15 +1,12 @@
 import os
 import json
 import logging
-import tempfile
 import shutil
 
 from scrapy.crawler import CrawlerProcess
-from stylelens_crawl.services.DeBow import DeBow
-from stylelens_crawl.services.DoubleSixGirls import DoubleSixGirls
-
-
-BASE_DIR = tempfile.mkdtemp()
+from stylelens_crawl import BASE_DIR
+from stylelens_crawl.util import get_shopping_information_from_csv
+from stylelens_crawl.services import DeBow, DoubleSixGirls, Imvely, Stylenanda, Cafe24
 
 class StylensCrawler(object):
     def __init__(self, options):
@@ -28,12 +25,22 @@ class StylensCrawler(object):
 
     def start(self):
 
+        # TODO : Change to Dictionary Type
         if self.service_name == 'HC0001':
             self.process.crawl(DoubleSixGirls)
         elif self.service_name == 'HC0002':
             self.process.crawl(DeBow)
+        elif self.service_name == 'HC0003':
+            self.process.crawl(Imvely)
+        elif self.service_name == 'HC0004':
+            self.process.crawl(Stylenanda)
         else:
-            return False
+            item = get_shopping_information_from_csv(self.service_name)
+            if item:
+                if item[1] == 'CAFE24':
+                    self.process.crawl(Cafe24, shopping_mall_settings=item)
+                else:
+                    return False
 
         self.process.start()
         self.logger.info('############################### completed')
@@ -51,11 +58,11 @@ class StylensCrawler(object):
 
     @staticmethod
     def delete_temp_file():
-        '''
+        """
         Mostly you don't need to call this function,
         if you use micro service architecture.
         :return:
-        '''
+        """
         if os.path.exists(BASE_DIR):
             return shutil.rmtree(BASE_DIR)
         return False
