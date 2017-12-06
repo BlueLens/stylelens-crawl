@@ -48,3 +48,4 @@ List of supported shopping malls
 5. [Thedaze](http://thedaze.kr) / HC0005
 6. [Gogosinf](http://ggsing.com/) / HC0006
 7. [Merongshop](http://merongshop.com) / HC0007
+8. [Angtoo](http://angtoo.com) / HC0008
