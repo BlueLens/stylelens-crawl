@@ -35,8 +35,17 @@ It will be returned '<b>True</b>' when successfully completed.
 
 ### Step 5: Get a crawled result data.
     sty.get_items()
-        
+
+### Step 6: Remove crawled result file. 
+    styl.delete_temp_file()
+    
 List of supported shopping malls
 ------------------
 1. [De-bow](http://de-bow.co.kr) / HC0002
 2. [육육걸즈](http://66girls.co.kr) / HC0001
+3. [Imvely](http://www.imvely.com/) / HC0003
+4. [Stylenanda](http://stylenanda.com/) / HC0004
+5. [Thedaze](http://thedaze.kr) / HC0005
+6. [Gogosinf](http://ggsing.com/) / HC0006
+7. [Merongshop](http://merongshop.com) / HC0007
+8. [Angtoo](http://angtoo.com) / HC0008
