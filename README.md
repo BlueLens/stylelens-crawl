@@ -41,11 +41,11 @@ It will be returned '<b>True</b>' when successfully completed.
     
 List of supported shopping malls
 ------------------
-1. [De-bow](http://de-bow.co.kr) / HC0002
-2. [육육걸즈](http://66girls.co.kr) / HC0001
-3. [Imvely](http://www.imvely.com/) / HC0003
-4. [Stylenanda](http://stylenanda.com/) / HC0004
-5. [Thedaze](http://thedaze.kr) / HC0005
+1. [De-bow](http://de-bow.co.kr) / HC0808
+2. [육육걸즈](http://66girls.co.kr) / HC0008
+3. [Imvely](http://www.imvely.com/) / HC0004
+4. [Stylenanda](http://stylenanda.com/) / HC0001
+5. [Thedaze](http://thedaze.kr) / HC0012
 6. [Gogosinf](http://ggsing.com/) / HC0006
-7. [Merongshop](http://merongshop.com) / HC0007
-8. [Angtoo](http://angtoo.com) / HC0008
+7. [Merongshop](http://merongshop.com) / HC0016
+8. [Angtoo](http://angtoo.com) / HC0015
