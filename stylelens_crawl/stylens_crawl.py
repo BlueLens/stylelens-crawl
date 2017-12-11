@@ -26,13 +26,13 @@ class StylensCrawler(object):
     def start(self):
 
         # TODO : Change to Dictionary Type
-        if self.service_name == 'HC0001':
+        if self.service_name == 'HC0008':
             self.process.crawl(DoubleSixGirls)
-        elif self.service_name == 'HC0002':
+        elif self.service_name == 'HC0808':
             self.process.crawl(DeBow)
-        elif self.service_name == 'HC0003':
-            self.process.crawl(Imvely)
         elif self.service_name == 'HC0004':
+            self.process.crawl(Imvely)
+        elif self.service_name == 'HC0001':
             self.process.crawl(Stylenanda)
         else:
             item = get_shopping_information_from_csv(self.service_name)
