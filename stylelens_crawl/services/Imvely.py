@@ -40,7 +40,7 @@ class Imvely(Spider):
 
         product = {
             'host_url': self.target_domain,
-            'host_code': 'HC0003',
+            'host_code': 'HC0004',
             'host_name': self.name,
             'name': response.css('meta[property="og:title"]::attr(content)').extract_first(),
             'tags': [response.css('meta[name="keywords"]::attr(content)').extract_first().split(',')[-1].strip()],

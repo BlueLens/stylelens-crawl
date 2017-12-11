@@ -28,6 +28,11 @@ setup(
     author_email='devops@bluehack.net',
     url='https://github.com/BlueLens/stylelens-crawl',
     scripts=[],
+    package_data={
+        'stylelens_crawl': [
+            'data/*/*.csv',
+        ]
+    },
     packages=find_packages(exclude=['tests*']),
     include_package_data=True,
     install_requires=requires,
