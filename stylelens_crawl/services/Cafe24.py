@@ -30,7 +30,7 @@ class Cafe24(Spider):
         for url in item_urls:
             yield Request(url=self.domain + url, callback=self.detail_parse)
 
-        if next_page != '#nzone':
+        if next_page != '#none':
             yield Request(url=self.domain + self.shopping_mall_settings[4] + next_page, callback=self.sub_parse)
 
     def detail_parse(self, response):
