@@ -7,7 +7,8 @@ requires = [
     'Scrapy>=1.4',
     'requests>=2.18.4',
     'beautifulsoup4>=4.6.0',
-    'js2xml>=0.3.1'
+    'js2xml>=0.3.1',
+    'google-api-python-client==1.6.4'
 ]
 
 ROOT = os.path.dirname(__file__)
@@ -29,9 +30,9 @@ setup(
     url='https://github.com/BlueLens/stylelens-crawl',
     scripts=[],
     package_data={
-        'stylelens_crawl': [
-            'data/*/*.csv',
-        ]
+        # 'stylelens_crawl': [
+        #     'data/*/*.csv',
+        # ]
     },
     packages=find_packages(exclude=['tests*']),
     include_package_data=True,

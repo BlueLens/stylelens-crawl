@@ -6,11 +6,12 @@ from stylelens_crawl import PKG_DIR
 
 def make_url(domain, location):
     url = urlparse(location)
+    domain = urlparse(domain)
     if url.scheme == '' and url.netloc == '':
         if len(url.query):
-            return domain + url.path + '?' + url.query
+            return 'http://' + domain.netloc + url.path + '?' + url.query
         else:
-            return domain + url.path
+            return 'http://' + domain.netloc + url.path
     elif url.scheme == '':
         if len(url.query):
             return 'http://' + url.netloc + url.path + '?' + url.query
@@ -22,7 +23,7 @@ def make_url(domain, location):
 
 def get_netloc(domain):
     url = urlparse(domain)
-    return url.netloc
+    return url.scheme, url.netloc, url.path
 
 
 def get_shopping_information_from_csv(host_code):

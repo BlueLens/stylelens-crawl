@@ -50,7 +50,7 @@ class Imvely(Spider):
             'product_url': response.url,
             'product_no': find_no,
             'nation': 'kr',
-            'main_image': response.css('meta[property="og:image"]::attr(content)').extract_first(),
+            'main_image': response.css('meta[property="og:image"]::attr(content)').extract()[-1],
             'sub_images': sub_images,
             # 'feedback':
                 # {
