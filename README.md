@@ -22,6 +22,8 @@ Getting Started
         'host_code': 'HC0001'
     }
  
+### Step 2-1: Enable the Jobs function 
+    options['job_dir'] = True
 
 ### Step 3: Create a stylelens crawl object
     sty = StylensCrawler(options)

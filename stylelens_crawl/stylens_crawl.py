@@ -13,19 +13,26 @@ from stylelens_crawl.services import DeBow, DoubleSixGirls, Imvely, Stylenanda, 
 scope = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 SPREAD_SHEET_ID = '1In9_1IbEyzU-nU57WxF1JbjXTki2yHkwIJfXZRY7ZjQ'
 
+
 class StylensCrawler(object):
     def __init__(self, options):
         if 'host_code' in options:
             self.service_name = options['host_code']
         self.logger = logging.getLogger(__name__)
         self.logger.setLevel(logging.INFO)
-        self.process = CrawlerProcess({
+        settings = {
             'USER_AGENT': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36',
             'FEED_FORMAT': 'json',
             'FEED_EXPORT_ENCODING': 'UTF-8',
             'FEED_URI': os.path.join(BASE_DIR, 'out.json'),
             'LOG_LEVEL': 'INFO'
-        })
+        }
+
+        if 'job_dir' in options:
+            if options['job_dir']:
+                settings['JOBDIR'] = os.path.join(BASE_DIR, 'job')
+
+        self.process = CrawlerProcess(settings)
         self.logger.info('The file location: %s' % os.path.join(BASE_DIR, 'out.json'))
 
     def start(self):

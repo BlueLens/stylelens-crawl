@@ -54,7 +54,6 @@ class Cafe24(Spider):
             for item in relation_product_items:
                 item = item[item.find(self.shopping_mall_settings[4]):]
                 item = item[:item.find('&')].split('=')[-1].strip()
-                self.logger.info(item)
                 if item:
                     if item not in relation_product:
                         relation_product.append(item)
