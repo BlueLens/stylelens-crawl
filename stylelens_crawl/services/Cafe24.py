@@ -104,6 +104,6 @@ class Cafe24(Spider):
         }
 
         if 'thum_img' in response.meta:
-            product['thumbnail'] = response.meta['thum_img'].css('img::attr(src)').extract_first()
+            product['thumbnail'] = make_url(self.domain, response.meta['thum_img'].css('img::attr(src)').extract_first())
 
         yield product
