@@ -120,7 +120,7 @@ class DoubleSixGirls(Spider):
         self.logger.debug('Not exist: %s' % response.url)
         product = {
             'host_url': self.target_domain,
-            'host_code': 'HC0001',
+            'host_code': 'HC0008',
             'host_name': self.name,
             'name': response.css('meta[property="og:title"]::attr(content)').extract_first(),
             'tags': [response.css('meta[name="keywords"]::attr(content)').extract_first().split(',')[-1].strip()],
