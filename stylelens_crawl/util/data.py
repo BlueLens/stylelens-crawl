@@ -1,12 +1,33 @@
 import os
+import re
 from stylelens_crawl import BASE_DIR, PKG_DIR
 from googleapiclient import discovery
 from oauth2client.service_account import ServiceAccountCredentials
 
+RANGE_RE = re.compile(r'^[$]?([A-Z]+)[$]?(\d+)$')
+
 
 class CsvToDict(object):
-    def __init__(self, headers):
+    def __init__(self, headers, ranges=None):
         self.headers = headers
+        self.ranges = ranges
+
+    def make_a_header_with_ranges(self):
+        assert self.headers, 'The headers value is None'
+        assert self.ranges, 'The ranges values is None'
+
+        mat = RANGE_RE.match(self.ranges.split(sep='!')[-1].split(sep=':')[0])
+
+        assert mat, 'The range format is wrong'
+
+        column, _ = mat.groups()
+
+        converted_header = {}
+        for header in self.headers:
+            converted_header[header] = column
+            column = chr(ord(column) + 1)
+
+        return converted_header
 
     def convert_csv_to_dict(self, rows):
         output = []
@@ -39,8 +60,16 @@ class SpreadSheets(object):
         self.sheet_id = sheet_id
 
     def get_rows(self, ranges):
-        return self.service.spreadsheets().values().get(spreadsheetId=self.sheet_id, range=ranges).execute().get('values', [])
+        return self.service.spreadsheets().values().get(spreadsheetId=self.sheet_id, range=ranges).execute().get(
+            'values', [])
 
     def get_rows_with_header(self, ranges):
-        result = self.service.spreadsheets().values().get(spreadsheetId=self.sheet_id, range=ranges).execute().get('values', [])
+        result = self.service.spreadsheets().values().get(spreadsheetId=self.sheet_id, range=ranges).execute().get(
+            'values', [])
         return CsvToDict(headers=result.pop(0)).convert_csv_to_dict(result)
+
+    def update_item_with_column_key(self, ranges, item, value_input_option='USER_ENTERED'):
+        return self.service.spreadsheets().values().get(spreadsheetId=self.sheet_id, range=ranges,
+                                                        valueInputOption=value_input_option, body={
+                                                            'values': item
+                                                        }).execute()
