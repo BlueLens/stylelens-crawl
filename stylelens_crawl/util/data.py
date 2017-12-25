@@ -34,6 +34,8 @@ class CsvToDict(object):
         for row in rows:
             converted_row = {}
             for idx, header in enumerate(self.headers):
+                if idx == len(row):
+                    break
                 converted_row[header] = row[idx]
 
             output.append(converted_row)
@@ -69,7 +71,7 @@ class SpreadSheets(object):
         return CsvToDict(headers=result.pop(0)).convert_csv_to_dict(result)
 
     def update_item_with_column_key(self, ranges, item, value_input_option='USER_ENTERED'):
-        return self.service.spreadsheets().values().get(spreadsheetId=self.sheet_id, range=ranges,
+        return self.service.spreadsheets().values().update(spreadsheetId=self.sheet_id, range=ranges,
                                                         valueInputOption=value_input_option, body={
                                                             'values': item
                                                         }).execute()
