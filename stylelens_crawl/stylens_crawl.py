@@ -7,7 +7,10 @@ from stylelens_crawl.util.data import SpreadSheets
 from scrapy.crawler import CrawlerProcess
 
 from stylelens_crawl import BASE_DIR, PKG_DIR
-from stylelens_crawl.services import DeBow, DoubleSixGirls, Imvely, Stylenanda, Cafe24, MakeShop
+from stylelens_crawl.services import DeBow, DoubleSixGirls, Imvely, Stylenanda, Cafe24, MakeShop, HANDSOME
+
+scope = ['https://www.googleapis.com/auth/spreadsheets.readonly']
+SPREAD_SHEET_ID = '1In9_1IbEyzU-nU57WxF1JbjXTki2yHkwIJfXZRY7ZjQ'
 
 
 class StylensCrawler(object):
@@ -41,17 +44,24 @@ class StylensCrawler(object):
         elif self.service_name == 'HC0001':
             self.process.crawl(Stylenanda)
         else:
-            shopping_mall_list = SpreadSheets(
-                sheet_id='1In9_1IbEyzU-nU57WxF1JbjXTki2yHkwIJfXZRY7ZjQ').get_rows_with_header(
-                "'크롤링'!A9:AD3000")
-            for item in shopping_mall_list:
-                if self.service_name == item['host_code']:
-                    if item['platform'] == 'CAFE24':
-                        self.process.crawl(Cafe24, shopping_mall_settings=item)
-                        break
-                    elif item['platform'] == 'MAKESHOP':
-                        self.process.crawl(MakeShop, shopping_mall_settings=item)
-                        break
+            host_code = int(self.service_name.replace('HC', ''))
+            # HANDSOME
+            if 1000 < host_code < 1050:
+                host = HANDSOME.get_host_with_service_name(self.service_name)
+                print(host)
+                self.process.crawl(HANDSOME, shopping_mall_settings=host)
+            else:
+                shopping_mall_list = SpreadSheets(
+                    sheet_id='1In9_1IbEyzU-nU57WxF1JbjXTki2yHkwIJfXZRY7ZjQ').get_rows_with_header(
+                    "'크롤링'!A9:AD3000")
+                for item in shopping_mall_list:
+                    if self.service_name == item['host_code']:
+                        if item['platform'] == 'CAFE24':
+                            self.process.crawl(Cafe24, shopping_mall_settings=item)
+                            break
+                        elif item['platform'] == 'MAKESHOP':
+                            self.process.crawl(MakeShop, shopping_mall_settings=item)
+                            break
 
         self.process.start()
         self.logger.info('############################### completed')
