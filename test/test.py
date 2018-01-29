@@ -2,7 +2,7 @@ from stylelens_crawl.stylens_crawl import StylensCrawler
 
 options = {
     # 'host_code': 'HC0016'
-    'host_code': 'HANDSOME'
+    'host_code': 'HC1013'
 }
 
 # Enable Job Directory
@@ -14,5 +14,6 @@ sty = StylensCrawler(options)
 # If the crawling task completed
 if sty.start():
     # Get a crawling result data.
-    # print(len(sty.get_items())
-    print('start')
+    print('Done crawling.')
+    print(len(sty.get_items()))
+    # print('start')
