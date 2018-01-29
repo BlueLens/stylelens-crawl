@@ -2,7 +2,7 @@ from scrapy import Spider, Request
 from stylelens_crawl.util import make_url, get_netloc
 
 
-class Cafe24(Spider):
+class MakeShop(Spider):
     def __init__(self, shopping_mall_settings, *args, **kwargs):
 
         self.host_code = shopping_mall_settings['host_code']

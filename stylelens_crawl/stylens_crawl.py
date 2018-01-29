@@ -1,17 +1,13 @@
-import json
 import logging
 import os
 import shutil
+import json
 
-from googleapiclient import discovery
-from oauth2client.service_account import ServiceAccountCredentials
+from stylelens_crawl.util.data import SpreadSheets
 from scrapy.crawler import CrawlerProcess
 
 from stylelens_crawl import BASE_DIR, PKG_DIR
-from stylelens_crawl.services import DeBow, DoubleSixGirls, Imvely, Stylenanda, Cafe24
-
-scope = ['https://www.googleapis.com/auth/spreadsheets.readonly']
-SPREAD_SHEET_ID = '1In9_1IbEyzU-nU57WxF1JbjXTki2yHkwIJfXZRY7ZjQ'
+from stylelens_crawl.services import DeBow, DoubleSixGirls, Imvely, Stylenanda, Cafe24, MakeShop
 
 
 class StylensCrawler(object):
@@ -45,23 +41,16 @@ class StylensCrawler(object):
         elif self.service_name == 'HC0001':
             self.process.crawl(Stylenanda)
         else:
-            if os.path.exists('/tmp/gdoc_certi.json'):
-                path = '/tmp/gdoc_certi.json'
-            elif os.path.exists(os.path.join(PKG_DIR, 'cred/f3c4bf11ae96.json')):
-                path = os.path.join(PKG_DIR, 'cred/f3c4bf11ae96.json')
-            else:
-                return False
-
-            credentials = ServiceAccountCredentials.from_json_keyfile_name(path, scope)
-            service = discovery.build('sheets', 'v4', credentials=credentials)
-
-            result = service.spreadsheets().values().get(spreadsheetId=SPREAD_SHEET_ID,
-                                                         range="'크롤링_쇼핑몰'!A2:P3000").execute()
-            values = result.get('values', [])
-            for item in values:
-                if self.service_name == item[0]:
-                    if item[1] == 'CAFE24':
+            shopping_mall_list = SpreadSheets(
+                sheet_id='1In9_1IbEyzU-nU57WxF1JbjXTki2yHkwIJfXZRY7ZjQ').get_rows_with_header(
+                "'크롤링'!A9:AD3000")
+            for item in shopping_mall_list:
+                if self.service_name == item['host_code']:
+                    if item['platform'] == 'CAFE24':
                         self.process.crawl(Cafe24, shopping_mall_settings=item)
+                        break
+                    elif item['platform'] == 'MAKESHOP':
+                        self.process.crawl(MakeShop, shopping_mall_settings=item)
                         break
 
         self.process.start()
