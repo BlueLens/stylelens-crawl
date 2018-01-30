@@ -15,5 +15,5 @@ sty = StylensCrawler(options)
 if sty.start():
     # Get a crawling result data.
     print('Done crawling.')
-    print(len(sty.get_items()))
+    print('count: ' + str(len(sty.get_items())))
     # print('start')
