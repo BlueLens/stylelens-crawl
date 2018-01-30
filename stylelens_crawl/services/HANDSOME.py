@@ -33,10 +33,12 @@ class HANDSOME(Spider):
                 # print('brand : ' + brand_name + '\nhandsome_brand_code : ' + str(self.brand_code))
             print(len(json_obj['results']))
 
-            for product in json_obj['results']:
-                yield Request(
-                    url=self.netloc + '/p/' + product['productStyleCode'],
-                    callback=self.detail_parse)
+            for products in json_obj['results']:
+                for product in products['productColorTemp']:
+                    yield Request(
+                        url=self.netloc + '/p/' + product,
+                        callback=self.detail_parse)
+
         except:
             # print('brand : ' + str(brand_name))
             print('Brand not found !')
