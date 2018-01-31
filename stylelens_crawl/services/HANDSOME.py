@@ -35,9 +35,16 @@ class HANDSOME(Spider):
 
             for products in json_obj['results']:
                 for product in products['productColorTemp']:
-                    yield Request(
+                    request = Request(
                         url=self.netloc + '/p/' + product,
                         callback=self.detail_parse)
+                    request.meta['product_no'] = product
+                    yield request
+
+                    # yield Request(
+                    #     url=self.netloc + '/p/' + product,
+                    #     callback=self.detail_parse,
+                    #     meta={'message': 'I\'m working fine, bros :D'})
 
         except:
             # print('brand : ' + str(brand_name))
@@ -58,7 +65,7 @@ class HANDSOME(Spider):
             'price': int(response.css('meta[property="recopick:price"]::attr(content)').extract_first()),
             'currency_unit': response.css(
                 'meta[property="recopick:price:currency"]::attr(content)').extract_first(),
-            'product_no': self.brand_code,
+            'product_no': response.meta['product_no'],
             'nation': 'kr',
             'main_image': response.css('meta[property="og:image"]::attr(content)').extract_first(),
             'sub_images': sub_images,
